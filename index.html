@@ -19,19 +19,17 @@
 	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 	<script type="text/javascript" charset="utf-8">
 	$(function(){
-
 		mapURL ='http://cyberjapandata.gsi.go.jp/xyz/std/{z}/{x}/{y}.png'
-		mapAttr ="<a href='http://maps.gsi.go.jp/development/ichiran.html' target='_blank'>地理院タイル</a>"
+		mapAttr ="<a href='http://maps.gsi.go.jp/development/ichiran.html' target='_blank'>地理院タイル|</a>"
+		mapAttr2 ="<a href='https://github.com/wakayama-pref-org' target='_blank'>wakayama-pref-org</a>"
 
-		var map = new L.Map("map");
-		L.TileLayer(mapURL,
+		var map = new L.Map("map").setView(new L.LatLng(34.2196463,135.1821562), 10);
+		baseLayer = new L.TileLayer(mapURL,
 		{
-			attribution: mapAttr
-		}).addTo(map);
-		map.setView(new L.LatLng(34.2196463,135.1821562), 10);
-
+			attribution: mapAttr + mapAttr2
+		});
+		map.addLayer(baseLayer);
 		$.getJSON("./data/json/list.json", function(data){
-
 			for (var i=0; i < data.length; i++){
 					//Pin表示
 					//L.marker(L.latLng(data[i].lat,data[i].long)).addTo(map).bindPopup("<b>" + data[i].location + "</b></br>" + data[i].address  );
@@ -39,9 +37,7 @@
 					L.circle(L.latLng(data[i].lat,data[i].long),1000,{fillOpacity: 0.5}).addTo(map).bindPopup("<b>" + data[i].location + "</b></br>" + data[i].address  );
 			};
 		});
-
 	});
 	</script>
-
 </body>
 </html>
