@@ -23,13 +23,12 @@
 		mapURL ='http://cyberjapandata.gsi.go.jp/xyz/std/{z}/{x}/{y}.png'
 		mapAttr ="<a href='http://maps.gsi.go.jp/development/ichiran.html' target='_blank'>地理院タイル</a>"
 
-		var map = new L.Map("map");
-		L.TileLayer(mapURL,
+		var map = new L.Map("map").setView(new L.LatLng(34.2196463,135.1821562), 10);
+		baseLayer = new L.TileLayer(mapURL,
 		{
 			attribution: mapAttr
-		}).addTo(map);
-		map.setView(new L.LatLng(34.2196463,135.1821562), 10);
-
+		});
+		map.addLayer(baseLayer);
 		$.getJSON("./data/json/list.json", function(data){
 
 			for (var i=0; i < data.length; i++){
@@ -39,7 +38,6 @@
 					L.circle(L.latLng(data[i].lat,data[i].long),1000,{fillOpacity: 0.5}).addTo(map).bindPopup("<b>" + data[i].location + "</b></br>" + data[i].address  );
 			};
 		});
-
 	});
 	</script>
 
